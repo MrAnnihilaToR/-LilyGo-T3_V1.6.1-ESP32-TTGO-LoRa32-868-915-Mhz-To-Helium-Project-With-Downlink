@@ -764,13 +764,57 @@ void processWork(ostime_t doWorkJobTimeStamp)
         }
         else
         {
-            // Prepare uplink payload.
+            // Prepare uplink payload
+            // uint8_t fPort = 10;
+            // payloadBuffer[0] = counterValue >> 8;
+            // payloadBuffer[1] = counterValue & 0xFF;
+            // uint8_t payloadLength = 2;
+            
             uint8_t fPort = 10;
-            payloadBuffer[0] = counterValue >> 8;
-            payloadBuffer[1] = counterValue & 0xFF;
-            uint8_t payloadLength = 2;
 
-            scheduleUplink(fPort, payloadBuffer, payloadLength);
+            uint8_t payloadLength = 9;
+            
+            
+               if(downLink==0)
+               {
+                    uint8_t arr0[] = "HELLOMAN";
+                    for(int i=0;i<(sizeof(arr0)-1);i++){
+                        payloadBuffer[i] = arr0[i];
+                    }
+                    downLink = 0;
+                    scheduleUplink(fPort, payloadBuffer, payloadLength-1);
+              
+                }
+                else if(downLink==1)
+                {
+                    uint8_t arr1[] = "COMMAND1";
+                    for(int i=0;i<(sizeof(arr1)-1);i++){
+                        payloadBuffer[i] = arr1[i];
+                    }
+                    downLink = 0;
+                    scheduleUplink(fPort, payloadBuffer, payloadLength-1);
+            
+                }
+               else if(downLink==2)
+                {
+                    uint8_t arr2[] = "COMMAND2";
+                    for(int i=0;i<(sizeof(arr2)-1);i++){
+                        payloadBuffer[i] = arr2[i];
+                    }
+                    downLink = 0;
+                    scheduleUplink(fPort, payloadBuffer, payloadLength-1);
+            
+                }
+                else if(downLink==3)
+                {
+                    uint8_t arr3[] = "COMMAND3";
+                    for(int i=0;i<(sizeof(arr3)-1);i++){
+                        payloadBuffer[i] = arr3[i];
+                    }
+                    downLink = 0;
+                    scheduleUplink(fPort, payloadBuffer, payloadLength-1);
+            
+                }
         }
     }
 }    
@@ -806,6 +850,7 @@ void processDownlink(ostime_t txCompleteTimestamp, uint8_t fPort, uint8_t* data,
         //New code
         Serial.println("COMMAND1");
         Serial.println();
+        downLink = 1;
        
     }  
 
@@ -814,8 +859,20 @@ void processDownlink(ostime_t txCompleteTimestamp, uint8_t fPort, uint8_t* data,
         //New code
         Serial.println("COMMAND2");
         Serial.println();
-      
+        downLink = 2;
     }  
+    
+    
+    if(fPort == cmdPort && dataLength == 1 && data[0] == '3')
+    {
+        Serial.println("COMMAND3");
+        Serial.println();
+        downLink = 3;
+
+
+        //LMIC_setTxData2(1, comm3, sizeof(comm3)-1, 0);
+        ///scheduleUplink(cmdPort, payloadBuffer , sizeof(comm3)-1, 0);
+    }
                       
 }
 
