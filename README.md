@@ -1,3 +1,5 @@
+This project uses LMIC-Node with LilyGo-T3_V1.6.1 ESP32 TTGO LoRa32 868-815 MHz and the idea of the project is to control the behaviour of the sent uplinks via the downlinks messages. For example if the user sent '3' as downlink message, the uplink to be strictly changed for that sent symbol. The idea is to use commands {'1', '2', '3', '4'} as downlinks for changing the uplink.
+
 This repository contains LMIC-node, an example LoRaWAN application for a node for The Things Network.  
 Get your node quickly up and running with LMIC-node.
 
